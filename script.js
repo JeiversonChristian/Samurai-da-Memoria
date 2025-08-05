@@ -1,5 +1,8 @@
 const board = document.getElementById("gameBoard");
 const modeSelect = document.getElementById("modeSelect");
+const restartButton = document.getElementById("restartButton");
+const backButton = document.getElementById("backButton");
+const gameControls = document.getElementById("gameControls");
 
 // Pares para Hiragana
 const hiraganaPairs = [
@@ -78,7 +81,25 @@ function iniciarJogo(pairs) {
 document.querySelectorAll(".mode-button").forEach((btn) => {
   btn.addEventListener("click", () => {
     const modo = btn.dataset.mode;
+    modoAtual = modo;
     if (modo === "hiragana") iniciarJogo(hiraganaPairs);
     else if (modo === "katakana") iniciarJogo(katakanaPairs);
+
+    gameControls.style.display = "flex";
   });
+});
+
+// Botão "Jogar novamente"
+restartButton.addEventListener("click", () => {
+  if (modoAtual === "hiragana") iniciarJogo(hiraganaPairs);
+  else if (modoAtual === "katakana") iniciarJogo(katakanaPairs);
+});
+
+// Botão "Voltar ao menu"
+backButton.addEventListener("click", () => {
+  board.innerHTML = "";
+  board.classList.remove("active");
+  modeSelect.style.display = "flex";
+  gameControls.style.display = "none";
+  modoAtual = null;
 });
