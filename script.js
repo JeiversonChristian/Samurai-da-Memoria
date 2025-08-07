@@ -443,17 +443,44 @@ document.querySelectorAll(".mode-button").forEach((btn) => {
   btn.addEventListener("click", () => {
     const modo = btn.dataset.mode;
     modoAtual = modo;
-    if (modo === "hiragana") iniciarJogo(hiraganaPairs);
-    else if (modo === "katakana") iniciarJogo(katakanaPairs);
 
+    // Esconde os botões de modo
+    document.getElementById("modeSelect").style.display = "none";
+
+    // Mostra os botões de nível
+    document.getElementById("levelSelect").style.display = "flex";
+  });
+});
+
+// Eventos de clique para os botões de nível
+document.querySelectorAll(".level-button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+
+    const nivel = btn.dataset.level;
+    if (nivel === "bebe") quantidade_cartas = 4;
+    else if(nivel === "facil") quantidade_cartas = 8;
+    else if(nivel === "normal") quantidade_cartas = 16;
+    else if(nivel === "dificil") quantidade_cartas = 32;
+    else if(nivel === "pimenta") quantidade_cartas = 64;
+
+    if (modoAtual === "hiragana") cartas = (hiraganaPairs.sort(() => Math.random() - 0.5)).slice(0, quantidade_cartas);
+
+    else if (modoAtual === "katakana") cartas = (katakanaPairs.sort(() => Math.random() - 0.5)).slice(0, quantidade_cartas);
+
+    iniciarJogo(cartas);
+
+    // Mostra os controles do jogo
     gameControls.style.display = "flex";
+
+    // Esconde os botões de nível
+    document.getElementById("levelSelect").style.display = "none";
   });
 });
 
 // Botão "Jogar novamente"
 restartButton.addEventListener("click", () => {
-  if (modoAtual === "hiragana") iniciarJogo(hiraganaPairs);
-  else if (modoAtual === "katakana") iniciarJogo(katakanaPairs);
+  if (modoAtual === "hiragana") iniciarJogo(cartas);
+  else if (modoAtual === "katakana") iniciarJogo(cartas);
 });
 
 // Botão "Voltar ao menu"
